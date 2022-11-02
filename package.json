@@ -1,0 +1,32 @@
+{
+  "name": "engenharia_de_software_ii",
+  "version": "1.0.0",
+  "description": "Repositório utilizado para o desenvolvimento e atividades realizadas durante a disciplina de Engenharia de Software II no IFCE Crato.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AfonsoJuda94/Engenharia_de_software_II.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AfonsoJuda94/Engenharia_de_software_II/issues"
+  },
+  "homepage": "https://github.com/AfonsoJuda94/Engenharia_de_software_II#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.7.0",
+    "pg": "^8.8.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
