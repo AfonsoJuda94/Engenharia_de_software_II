@@ -83,6 +83,36 @@ app.post('/auth/register', async(req, res) => {
     }
 })
 
+//Login User
+app.post("/auth/login", async (req, res) => {
+
+    const {email, password}  = req.body
+
+     //validations
+     if(!email) {
+        return res.status(422).json({ msg: 'O email é obrigatório!'})
+    }
+    if(!password) {
+        return res.status(422).json({ msg: 'A senha é obrigatória!'})
+    }
+
+    //Check if user exists || Checar se o usuário existe
+    //.findOne é equivalente a uma query where do SQL
+    const user = await User.findOne({ email: email})
+
+    if(!user) {
+       return res.status(404).json({ msg: 'Usuário não encontrado!' })
+    }
+
+    //Check if password match || Verificar se a senha confere
+    const checkPassword = await bcrypt.compare(password, user.password)
+
+    if(!checkPassword) {
+        return res.status(422).json({ msg: 'Senha inválida' })
+     }
+
+})
+
 //Credencials de conexão ao banco 
 const dbUser = process.env.DB_USER
 const dbPassword = process.env.DB_PASS
