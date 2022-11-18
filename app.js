@@ -18,7 +18,7 @@ app.get('/', (req, res) =>{
     res.status(200).json({ msg: 'Bem vindo a nossa API!'})
 })
 
-//Private Route
+//Private Route Get dados do usuário por id
 app.get('/users/:id', checkToken, async (req, res) =>{
     
     const id = req.params.id
@@ -35,7 +35,24 @@ app.get('/users/:id', checkToken, async (req, res) =>{
     res.status(200).json({ user })
 })
 
-//Continuar daqui 
+//Private Route Get dados do usuário por email
+app.get('/usersEmail/:email', checkToken, async (req, res) =>{
+    
+    const email = req.params.email
+
+    //Check if user exist || Checar se o usuário existe
+    //Pegando as informações por usuário, menos o password por questão de segurança
+    const user = await User.find({email: email}, '-password')
+
+    if(!user) {
+        return res.status(404).json({ msg: 'Usuário não encontrado' })
+    }
+
+    /* Retornando os dados do usuário, menos o password por segurança */
+    res.status(200).json({ user })
+})
+
+//Verificação de token
 function checkToken(req, res, next) {
     const authHeader = req.headers['authorization']
     /* Pegando o token do Header */
