@@ -52,6 +52,26 @@ app.get('/usersEmail/:email', checkToken, async (req, res) =>{
     res.status(200).json({ user })
 })
 
+//Private Route UPDATE dados do usuário
+app.post('/users/:email', checkToken, async (req, res) =>{
+    
+    const email = req.params.email
+
+    /* Lógica para ser implementada para adição e repoção de jogador favoritor */
+    /*Selecionar o campo array jogadores_favoritos e salvar em uma variável, pegar esse array e adicionar 
+    o novo favorito com Array.push, com o novo array é so executar o updateOne*/
+    /* No caso de remoção de favorito,  Selecionar o campo array jogadores_favoritos e salvar em uma variável,
+    pegar esse array e remover o indice que ocorre o favorito, com o novo array é so executar o updateOne*/
+    const user = await User.updateOne({"email": email}, {$set: {"jogadores_favoritos": "['APIEditada1', 'IDEditado1']"}})
+
+    if(!user) {
+        return res.status(404).json({ msg: 'Usuário não encontrado para edição' })
+    }
+
+    /* Retornando os dados do usuário editado, menos o password por segurança */
+    res.status(200).json({ user })
+})
+
 //Verificação de token
 function checkToken(req, res, next) {
     const authHeader = req.headers['authorization']
