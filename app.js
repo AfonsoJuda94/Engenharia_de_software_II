@@ -53,23 +53,34 @@ app.get('/usersEmail/:email', checkToken, async (req, res) =>{
 })
 
 //Private Route UPDATE dados do usuário
-app.post('/users/:email', checkToken, async (req, res) =>{
+app.put('/users/:email', checkToken, async (req, res) =>{
     
     const email = req.params.email
+    const favorito = req.body
+    console.log(favorito)
+    //Pegando as informações 
+    const jogadores = await User.find( {email: email}, 'jogadores_favoritos')
+    const jogadoresAtualizado = jogadores[0].jogadores_favoritos
+    const jogadorAdicionado = jogadoresAtualizado.push(favorito)
+    /* console.log(jogadorAdicionado) */
+    console.log(jogadoresAtualizado)
 
-    /* Lógica para ser implementada para adição e repoção de jogador favoritor */
+    
+    //NovosJogadores_favoritos = Object.values(jogadores_favoritos).push(NovoFavorito)
+
+    /* Lógica para ser implementada para adição de jogador favoritor */
     /*Selecionar o campo array jogadores_favoritos e salvar em uma variável, pegar esse array e adicionar 
     o novo favorito com Array.push, com o novo array é so executar o updateOne*/
-    /* No caso de remoção de favorito,  Selecionar o campo array jogadores_favoritos e salvar em uma variável,
-    pegar esse array e remover o indice que ocorre o favorito, com o novo array é so executar o updateOne*/
-    const user = await User.updateOne({"email": email}, {$set: {"jogadores_favoritos": "['APIEditada1', 'IDEditado1']"}})
+
+    /* Atualizando o campo */
+    const user = await User.updateOne({"email": email}, {$set: {"jogadores_favoritos": jogadoresAtualizado }})
 
     if(!user) {
-        return res.status(404).json({ msg: 'Usuário não encontrado para edição' })
+        return res.status(404).json({ msg: 'Falha na conexão' })
     }
 
     /* Retornando os dados do usuário editado, menos o password por segurança */
-    res.status(200).json({ user })
+    res.status(200).json({ })
 })
 
 //Verificação de token
