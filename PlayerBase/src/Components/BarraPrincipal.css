@@ -1,0 +1,51 @@
+#barra{
+    width: 100%;
+    background-color: blue;
+    height: 60px;
+    margin: none;
+    align-items: center;
+}
+#barra button{
+    
+}
+#image{
+    height: 55px;
+}
+#square-icon{
+    height: 55px;
+    width: 55px;
+    background-color: white;
+    border-radius: 25%;
+    cursor: pointer;
+    position: relative;
+    top:2px;
+    left: 4px;
+}
+.btns{
+    position: relative;
+    float: right;
+    bottom: 75%;
+    display: inline;
+    background-color: rgb(5, 5, 126);   
+    padding: 5px;
+    border: none;
+    margin-right: 5px;
+    width: 100px;
+    height: 40px;
+    color: white;
+    font-weight: bold;
+    border-radius: 25px;
+}
+.btns:hover{
+    cursor: pointer;
+}
+#Pesquisa{
+    position: relative;
+    bottom: 45px;
+    left: 40px;
+    width: 500px;
+    height: 35px;
+    border-radius: 15px;
+    border: none;
+    text-align: center;
+}
