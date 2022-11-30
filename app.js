@@ -52,25 +52,19 @@ app.get('/usersEmail/:email', checkToken, async (req, res) =>{
     res.status(200).json({ user })
 })
 
-//Private Route UPDATE dados do usuário
+//Private Route adição de favorito
 app.put('/users/:email', checkToken, async (req, res) =>{
     
     const email = req.params.email
     const favorito = req.body
-    console.log(favorito)
     //Pegando as informações 
     const jogadores = await User.find( {email: email}, 'jogadores_favoritos')
     const jogadoresAtualizado = jogadores[0].jogadores_favoritos
-    const jogadorAdicionado = jogadoresAtualizado.push(favorito)
-    /* console.log(jogadorAdicionado) */
-    console.log(jogadoresAtualizado)
-
-    
-    //NovosJogadores_favoritos = Object.values(jogadores_favoritos).push(NovoFavorito)
+    jogadoresAtualizado.push(favorito)
 
     /* Lógica para ser implementada para adição de jogador favoritor */
     /*Selecionar o campo array jogadores_favoritos e salvar em uma variável, pegar esse array e adicionar 
-    o novo favorito com Array.push, com o novo array é so executar o updateOne*/
+    o novo favorito com .push, com o novo array é so executar o updateOne*/
 
     /* Atualizando o campo */
     const user = await User.updateOne({"email": email}, {$set: {"jogadores_favoritos": jogadoresAtualizado }})
@@ -80,7 +74,7 @@ app.put('/users/:email', checkToken, async (req, res) =>{
     }
 
     /* Retornando os dados do usuário editado, menos o password por segurança */
-    res.status(200).json({ })
+    res.status(200).json({ msg: 'Jogador adicionado com sucesso' })
 })
 
 //Verificação de token
