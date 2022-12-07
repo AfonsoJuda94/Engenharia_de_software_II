@@ -53,7 +53,7 @@ app.get('/usersEmail/:email', checkToken, async (req, res) =>{
 })
 
 //Private Route adição de favorito
-app.put('/users/:email', checkToken, async (req, res) =>{
+app.put('/users/adicaoFavorito/:email', checkToken, async (req, res) =>{
     
     const email = req.params.email
     const favorito = req.body
@@ -65,7 +65,6 @@ app.put('/users/:email', checkToken, async (req, res) =>{
     /* Lógica para ser implementada para adição de jogador favoritor */
     /*Selecionar o campo array jogadores_favoritos e salvar em uma variável, pegar esse array e adicionar 
     o novo favorito com .push, com o novo array é so executar o updateOne*/
-
     /* Atualizando o campo */
     const user = await User.updateOne({"email": email}, {$set: {"jogadores_favoritos": jogadoresAtualizado }})
 
@@ -73,8 +72,33 @@ app.put('/users/:email', checkToken, async (req, res) =>{
         return res.status(404).json({ msg: 'Falha na conexão' })
     }
 
-    /* Retornando os dados do usuário editado, menos o password por segurança */
-    res.status(200).json({ msg: 'Jogador adicionado com sucesso' })
+    /* Menssagem de sucesso ao atualizar favoritos */
+    res.status(200).json({ msg: 'Favorito adicionado com sucesso' })
+})
+
+//Private Route remoção de favorito
+app.put('/users/remocaoFavorito/:email', checkToken, async (req, res) =>{
+    
+    const email = req.params.email
+    const removerFavorito = req.body
+    //Pegando as informações 
+    const jogadores = await User.find( {email: email}, 'jogadores_favoritos')
+    const jogadoresAtualizado = jogadores[0].jogadores_favoritos
+    favoritos = jogadoresAtualizado.filter( favorito => favorito.NovoFavorito != removerFavorito.NovoFavorito)
+
+    /* Lógica para ser implementada para remoção de jogador favoritor */
+    /*Selecionar o campo array jogadores_favoritos e salvar em uma variável, pegar esse array de objetos e 
+    varrer e encontrar o elemento a ser removido, com o novo array é so executar o updateOne*/
+
+    /* Atualizando o campo */
+    const user = await User.updateOne({"email": email}, {$set: {"jogadores_favoritos": favoritos }})
+
+    if(!user) {
+        return res.status(404).json({ msg: 'Falha na conexão' })
+    }
+
+    /* Menssagem de sucesso ao atualizar favoritos */
+    res.status(200).json({ msg: 'Favorito removido com sucesso' })
 })
 
 //Verificação de token
